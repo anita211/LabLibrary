@@ -7,12 +7,12 @@ def create():
 
         cur = conn.cursor()
         cur.execute(
-            "INSERT INTO Books"
+            "INSERT INTO Loan"
         )
         conn.commit()
         return True
     except Exception as e:
-        print(f'Error inserting book: {e}')
+        print(f'Error: {e}')
         return False
     finally:
         if conn:
@@ -22,11 +22,11 @@ def get():
     try:
         conn = Database()
         cur = conn.cursor()
-        cur.execute('SELECT * FROM Books')
-        books = cur.fetchall()
-        return books
+        cur.execute('SELECT * FROM Loan')
+        loan = cur.fetchall()
+        return loan
     except Exception as e:
-        print(f'Error fetching books: {e}')
+        print(f'Error fetching loan: {e}')
     finally:
         if conn:
             conn.close()
