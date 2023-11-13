@@ -1,6 +1,11 @@
 CREATE TABLE IF NOT EXISTS Users (
     id SERIAL PRIMARY KEY,
-    role VARCHAR NOT NULL CHECK (role IN ('MEMBER', 'ADMIN')),
+    username VARCHAR UNIQUE NOT NULL,
+    first_name VARCHAR NOT NULL,
+    last_name VARCHAR NOT NULL,
+    password VARCHAR NOT NULL,
+    user_photo_url VARCHAR,
+    role VARCHAR NOT NULL CHECK (role IN ('MEMBER', 'ADMIN'))
 );
 
 CREATE TABLE IF NOT EXISTS Books (
