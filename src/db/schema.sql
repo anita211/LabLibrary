@@ -5,6 +5,14 @@ CREATE TABLE IF NOT EXISTS Users (
 
 CREATE TABLE IF NOT EXISTS Books (
     isbn SERIAL PRIMARY KEY,
+    title VARCHAR NOT NULL,
+    author VARCHAR NOT NULL,
+    description VARCHAR NOT NULL,
+    category VARCHAR NOT NULL CHECK (category IN ('ROMANCE', 'COMEDY', 'DRAMA', 'SCIFI', 'HORROR')),
+    date_acquisition DATE NOT NULL,
+    conservation_status DEFAULT 'NEW' NOT NULL CHECK (status IN ('NEW', 'AVERAGE', 'OLD', 'DAMAGED')),
+    physical_location VARCHAR NOT NULL,
+    book_cover_url VARCHAR NOT NULL,
     status VARCHAR DEFAULT 'AVAILABLE' NOT NULL CHECK (status IN ('AVAILABLE', 'BORROWED')),
 );
 
