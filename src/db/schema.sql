@@ -13,14 +13,19 @@ CREATE TABLE IF NOT EXISTS Teaching_Materials (
     status VARCHAR DEFAULT 'AVAILABLE' NOT NULL CHECK (status IN ('AVAILABLE', 'BORROWED')),
 );
 
-CREATE TABLE IF NOT EXISTS Loan (
+ CREATE TABLE IF NOT EXISTS Loan (
     id SERIAL PRIMARY KEY,
-    -- Descomentar apos completar a tabela
-    -- CHECK (
-    --     (id_book IS NOT NULL AND id_material IS NULL) 
-    --     OR 
-    --     (id_book IS NULL AND id_material IS NOT NULL)
-    -- ),
+    loan_date DATE NOT NULL,
+    expected_return_date DATE NOT NULL,
+    status VARCHAR(255) NOT NULL,
+    id_book INT REFERENCES Books(isbn),
+    id_material INT REFERENCES Teaching_Materials(id),
+    id_user INT REFERENCES Users(id),
+    CHECK (
+        (id_book IS NOT NULL AND id_material IS NULL) 
+        OR 
+        (id_book IS NULL AND id_material IS NOT NULL)
+    ),
 );
 
 -- Descomentar as linhas abaixo apos a criacao de todas as tabelas
