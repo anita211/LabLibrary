@@ -1,12 +1,24 @@
-INSERT INTO books (title, author, publication_year) VALUES
-  ('Livro 1', 'Autor 1', 2020),
-  ('Livro 2', 'Autor 2', 2021),
-  ('Livro 3', 'Autor 3', 2019);
+-- Inserção de livros
+INSERT INTO Books (isbn, title, author, description, category, date_acquisition, conservation_status, physical_location, book_cover_url, status) VALUES
+  (1015, 'Departure', 'Alan Wake', 'Não é um lago, é um oceano', 'SCIFI', '2023-11-21', 'NEW', 'primeira fileira da direita', 'localhost:5000', 'AVAILABLE'),
+  (1016, 'Return', 'Alan Wake', 'Não é um lago, é um oceano', 'SCIFI', '2023-11-21', 'NEW', 'primeira fileira da esquerda', 'localhost:5001', 'AVAILABLE'),
+  (1017, 'Alex casy', 'Alan Wake', 'Não é um lago, é um oceano', 'SCIFI', '2023-11-21', 'NEW', 'primeira fileira da frente', 'localhost:5002', 'AVAILABLE');
 
+-- Inserção de usuários
+INSERT INTO Users (username, first_name, last_name, password, role) VALUES
+  ('nome123', 'Pafuncio', 'Pinto', '123456', 'ADMIN'),
+  ('nome456', 'Nina', 'Oliveira', '654321', 'MEMBER'),
+  ('nome789', 'Tapioca', 'Silva', '13579', 'MEMBER'),
+  ('nome9', 'Tilti', 'Costa', '13579', 'MEMBER');
+
+-- Inserção de materiais de ensino
+INSERT INTO Teaching_materials (description, category, date_acquisition, conservation_status, physical_location, material_cover_url, status, serie_number) VALUES
+  ('paquimetro', 'LAB_EQUIPMENT', '2023-11-19', 'NEW', 'primeira fileira da direita', 'localhost:5000', 'AVAILABLE', '123'),
+  ('multimetro', 'LAB_EQUIPMENT', '2023-11-20', 'NEW', 'primeira fileira da esquerda', 'localhost:5001', 'AVAILABLE', '321'),
+  ('amperimetro', 'LAB_EQUIPMENT', '2023-11-21', 'NEW', 'primeira fileira da frente', 'localhost:5002', 'AVAILABLE', '555');
+
+-- Inserção de empréstimos
 INSERT INTO Loan (loan_date, expected_return_date, status, id_book, id_user)
-  VALUES ('2023-11-14', '2023-11-21', 'BORROWED', 1, 1);
-
-INSERT INTO Loan (loan_date, expected_return_date, status, id_material, id_user)
-  VALUES ('2023-11-14', '2023-11-21', 'BORROWED', 2, 2);
-  
-  
+  VALUES ('2023-11-14', '2023-11-21', 'IN_PROGRESS', 1015, 2),
+  ('2023-11-15', '2023-11-22', 'IN_PROGRESS', 1016, 3),
+  ('2023-11-16', '2023-11-23', 'IN_PROGRESS', 1017, 4);
