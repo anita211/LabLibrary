@@ -5,4 +5,4 @@ st.header('List of Books')
 books = books_list()
 if books:
     for book in books:
-        st.write(f"ID: {book[0]}, Title: {book[1]}, Author: {book[2]}, Publication Year: {book[3]}")
+        st.write(f"ID: {book[0]}, Title: {book[1]}, Author: {book[2]}, Description: {book[3]}")
