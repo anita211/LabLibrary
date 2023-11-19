@@ -98,3 +98,35 @@ CREATE TRIGGER check_return_date_trigger
 BEFORE INSERT ON Loan
 FOR EACH ROW
 EXECUTE FUNCTION check_return_date();
+
+CREATE OR REPLACE FUNCTION update_book_status_on_loan_insert()
+RETURNS TRIGGER AS $$
+BEGIN
+    UPDATE Books
+    SET status = 'BORROWED'
+    WHERE isbn = NEW.id_book;
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER loan_insert_trigger
+AFTER INSERT ON Loan
+FOR EACH ROW EXECUTE FUNCTION update_book_status_on_loan_insert();
+
+CREATE OR REPLACE FUNCTION update_book_status_on_loan_update()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF NEW.status = 'COMPLETED' THEN
+        UPDATE Books
+        SET status = 'AVAILABLE'
+        WHERE isbn = OLD.id_book;
+    END IF;
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER loan_update_trigger
+AFTER UPDATE ON Loan
+FOR EACH ROW EXECUTE FUNCTION update_book_status_on_loan_update();
