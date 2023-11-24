@@ -167,11 +167,11 @@ class User:
         except Exception as e:
             print(f'Error fetching user: {e}')
 
-    def get_user_by_username(self):
+    def get_all_members(self):
         try:
             conn = self.bd_connect()
             cur = conn.cursor()
-            cur.execute('SELECT * FROM Users WHERE username = %s', (self.username,))
+            cur.execute('SELECT * FROM Users WHERE role = MEMBER')
             user_data = cur.fetchone()
             conn.close()
             if user_data:
