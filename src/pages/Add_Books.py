@@ -1,21 +1,22 @@
 import streamlit as st
-from api.books import create as books_create
+from api.books import Book
+
 
 st.header('Add a New Book')
 
-isbn = st.text_input('isbn')
+isbn = st.number_input('isbn', min_value=0)
 title = st.text_input('Title')
 author = st.text_input('Author')
 description = st.text_input('description')
 category = st.selectbox("category", ['ROMANCE', 'COMEDY', 'DRAMA', 'SCIFI', 'HORROR'])
-date_acquisition = st.number_input('Date Acquisition', min_value=0)
+date_acquisition = st.date_input('Date Acquisition')
 conservation_status = st.selectbox('Conservation Status', ['NEW', 'AVERAGE', 'OLD', 'DAMAGED'])
 physical_location = st.text_input('Physical Location')
 book_cover_url = st.text_input('Book Cover url')
 status = st.selectbox("Status", ['AVAILABLE', 'BORROWED'])
 
 if st.button('Save'):
-    if books_create(
+    new_book = Book(
         int(isbn), 
         title, 
         author, 
@@ -26,7 +27,8 @@ if st.button('Save'):
         physical_location,
         book_cover_url,
         status,
-    ):
+    )
+    if new_book.create_book():
         st.success('Book inserted successfully!')
     else:
         st.error('Error inserting book.')
