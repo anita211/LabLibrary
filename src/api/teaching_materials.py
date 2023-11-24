@@ -139,20 +139,6 @@ class TeachingMaterial:
         except Exception as e:
             print(f'Error fetching teaching material: {e}')
 
-    def get_teaching_material_by_serie_number(self):
-        try:
-            conn = self._bd_connect()
-            cur = conn.cursor()
-            cur.execute('SELECT * FROM Teaching_materials WHERE serie_number = %s', (self.serie_number,))
-            material_data = cur.fetchone()
-            conn.close()
-
-            if material_data:
-                material = TeachingMaterial(*material_data)
-                return material
-        except Exception as e:
-            print(f'Error fetching teaching material: {e}')
-
     def get_available_teaching_materials(self):
         try:
             conn = self._bd_connect()
