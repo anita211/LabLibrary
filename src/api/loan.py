@@ -108,6 +108,21 @@ class Loan:
             print(f'Error fetching loans: {e}')
             return None
         
+    def get_loans_by_id(self):
+        try:
+            conn = self._bd_connect()
+            cur = conn.cursor()
+            cur.execute('SELECT * FROM Loan WHERE id = %s', (self.id,))
+            loans_data = cur.fetchone()
+            conn.close()
+
+            if loans_data:
+                loan = Loan(*loans_data)
+                return loan
+
+        except Exception as e:
+            print(f'Error fetching loans: {e}')
+        
     def get_in_progress_loans(self):
         try:
             conn = self._bd_connect()
