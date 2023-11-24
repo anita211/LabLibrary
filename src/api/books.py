@@ -147,15 +147,6 @@ class Book:
             return False
 
     def get_books(self):
-        with open('src/globals.py', 'r') as file:
-            exec(file.read())
-
-        print(logged_user)
-
-        if logged_user is None:
-            print('You must be logged in to get a books')
-            return False
-
         try:
             conn = self._bd_connect()
             cur = conn.cursor()
@@ -173,12 +164,6 @@ class Book:
             print(f'Error fetching books: {e}')
 
     def get_book_by_isbn(self):
-        with open('src/globals.py', 'r') as file:
-            exec(file.read())
-
-        if logged_user is None:
-            print('You must be logged in to get a book')
-            return False
 
         try:
             conn = self._bd_connect()
@@ -195,12 +180,6 @@ class Book:
             print(f'Error fetching books: {e}')
 
     def get_available_books(self):
-        with open('src/globals.py', 'r') as file:
-            exec(file.read())
-
-        if logged_user is None:
-            print('You must be logged in to get a books')
-            return False
 
         try:
             conn = self._bd_connect()

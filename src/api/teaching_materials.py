@@ -142,13 +142,6 @@ class TeachingMaterial:
             return False
 
     def get_teaching_materials(self):
-        with open('src/globals.py', 'r') as file:
-            exec(file.read())
-
-        if logged_user is None:
-            print('You must be logged in to get a teaching material')
-            return False
-    
         try:
             conn = self._bd_connect()
             cur = conn.cursor()
@@ -166,12 +159,6 @@ class TeachingMaterial:
             print(f'Error fetching teaching materials: {e}')
 
     def get_teaching_material_by_id(self):
-        with open('src/globals.py', 'r') as file:
-            exec(file.read())
-
-        if logged_user is None:
-            print('You must be logged in to get a teaching material')
-            return False
 
         try:
             conn = self._bd_connect()
@@ -189,12 +176,6 @@ class TeachingMaterial:
             print(f'Error fetching teaching material: {e}')
 
     def get_available_teaching_materials(self):
-        with open('src/globals.py', 'r') as file:
-            exec(file.read())
-            
-        if logged_user is None:
-            print('You must be logged in to get a teaching material')
-            return False
 
         try:
             conn = self._bd_connect()
