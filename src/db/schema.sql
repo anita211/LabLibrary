@@ -44,14 +44,18 @@ CREATE TABLE IF NOT EXISTS Teaching_materials (
     id_material INT REFERENCES Teaching_Materials(id),
     id_user INT REFERENCES Users(id),
     CHECK (
-        (id_book IS NOT NULL AND id_material IS NULL) 
-        OR 
-        (id_book IS NULL AND id_material IS NOT NULL)
+        (
+            (id_book IS NOT NULL AND id_material IS NULL) 
+            OR 
+            (id_book IS NULL AND id_material IS NOT NULL)
+        ) AND (
+            expected_return_date > loan_date
+        )
     )
 );
 
 
-CREATE OR REPLACE FUNCTION check_return_date() RETURNS TRIGGER AS $$
+CREATE OR REPLACE FUNCTION checks_loan() RETURNS TRIGGER AS $$
 BEGIN
 
     IF NEW.expected_return_date < NEW.loan_date THEN
@@ -94,17 +98,23 @@ BEFORE INSERT OR UPDATE ON Users
 FOR EACH ROW
 EXECUTE FUNCTION encrypt_password();
 
-CREATE TRIGGER check_return_date_trigger
+CREATE TRIGGER checks_loan_trigger
 BEFORE INSERT ON Loan
 FOR EACH ROW
-EXECUTE FUNCTION check_return_date();
+EXECUTE FUNCTION checks_loan();
 
 CREATE OR REPLACE FUNCTION update_book_status_on_loan_insert()
 RETURNS TRIGGER AS $$
 BEGIN
-    UPDATE Books
-    SET status = 'BORROWED'
-    WHERE isbn = NEW.id_book;
+    IF NEW.id_book IS NOT NULL THEN
+        UPDATE Books
+        SET status = 'BORROWED'
+        WHERE isbn = NEW.id_book;
+    
+    IF NEW.id_material IS NOT NULL THEN
+        UPDATE Teaching_materials
+        SET status = 'BORROWED'
+        WHERE isbn = NEW.id_material;
 
     RETURN NEW;
 END;
@@ -117,10 +127,16 @@ FOR EACH ROW EXECUTE FUNCTION update_book_status_on_loan_insert();
 CREATE OR REPLACE FUNCTION update_book_status_on_loan_update()
 RETURNS TRIGGER AS $$
 BEGIN
-    IF NEW.status = 'COMPLETED' THEN
+    IF NEW.status = 'COMPLETED' and OLD.id_book IS NOT NULL THEN
         UPDATE Books
         SET status = 'AVAILABLE'
         WHERE isbn = OLD.id_book;
+    END IF;
+
+    IF NEW.status = 'COMPLETED' and OLD.id_material IS NOT NULL THEN
+        UPDATE Teaching_materials
+        SET status = 'AVAILABLE'
+        WHERE isbn = OLD.id_material;
     END IF;
 
     RETURN NEW;
