@@ -1,4 +1,5 @@
 from decouple import config
+from globals import logged_user
 import psycopg2
 
 POSTGRES_DB = config('POSTGRES_DB')
@@ -45,6 +46,17 @@ class Book:
             print(f'Error connecting to the database: {e}')
 
     def create_book(self):
+        with open('src/globals.py', 'r') as file:
+            exec(file.read())
+
+        if logged_user is None:
+            print('You must be logged in to create a book')
+            return False
+        
+        if logged_user["role"] != 'ADMIN':
+            print('You do not have permission to create a book')
+            return False
+        
         try:
             conn = self._bd_connect()
             cur = conn.cursor()
@@ -72,6 +84,17 @@ class Book:
         
 
     def update_book(self):
+        with open('src/globals.py', 'r') as file:
+            exec(file.read())
+
+        if logged_user is None:
+            print('You must be logged in to update a book')
+            return False
+        
+        if logged_user["role"] != 'ADMIN':
+            print('You do not have permission to update a book')
+            return False
+    
         try:
             conn = self._bd_connect()
             cur = conn.cursor()
@@ -98,6 +121,17 @@ class Book:
             return False
 
     def delete_book(self):
+        with open('src/globals.py', 'r') as file:
+            exec(file.read())
+
+        if logged_user is None:
+            print('You must be logged in to delete a book')
+            return False
+        
+        if logged_user["role"] != 'ADMIN':
+            print('You do not have permission to delete a book')
+            return False
+    
         try:
             conn = self._bd_connect()
             cur = conn.cursor()
@@ -113,6 +147,15 @@ class Book:
             return False
 
     def get_books(self):
+        with open('src/globals.py', 'r') as file:
+            exec(file.read())
+
+        print(logged_user)
+
+        if logged_user is None:
+            print('You must be logged in to get a books')
+            return False
+
         try:
             conn = self._bd_connect()
             cur = conn.cursor()
@@ -130,6 +173,13 @@ class Book:
             print(f'Error fetching books: {e}')
 
     def get_book_by_isbn(self):
+        with open('src/globals.py', 'r') as file:
+            exec(file.read())
+
+        if logged_user is None:
+            print('You must be logged in to get a book')
+            return False
+
         try:
             conn = self._bd_connect()
             cur = conn.cursor()
@@ -145,6 +195,13 @@ class Book:
             print(f'Error fetching books: {e}')
 
     def get_available_books(self):
+        with open('src/globals.py', 'r') as file:
+            exec(file.read())
+
+        if logged_user is None:
+            print('You must be logged in to get a books')
+            return False
+
         try:
             conn = self._bd_connect()
             cur = conn.cursor()

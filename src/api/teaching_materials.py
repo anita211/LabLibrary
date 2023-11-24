@@ -1,10 +1,12 @@
 from decouple import config
+from globals import logged_user
 import psycopg2
 
 POSTGRES_DB = config('POSTGRES_DB')
 POSTGRES_USER = config('POSTGRES_USER')
 POSTGRES_PASSWORD = config('POSTGRES_PASSWORD')
 POSTGRES_PORT = config('POSTGRES_PORT')
+
 
 class TeachingMaterial:
     def __init__(
@@ -43,6 +45,17 @@ class TeachingMaterial:
             print(f'Error connecting to the database: {e}')
 
     def create_teaching_material(self):
+        with open('src/globals.py', 'r') as file:
+            exec(file.read())
+    
+        if logged_user is None:
+            print('You must be logged in to create a teaching material')
+            return False
+        
+        if logged_user["role"] != 'ADMIN':
+            print('You do not have permission to create a teaching material')
+            return False
+    
         try:
             conn = self._bd_connect()
             cur = conn.cursor()
@@ -67,6 +80,17 @@ class TeachingMaterial:
             return False
 
     def update_teaching_material(self):
+        with open('src/globals.py', 'r') as file:
+            exec(file.read())
+    
+        if logged_user is None:
+            print('You must be logged in to update a teaching material')
+            return False
+        
+        if logged_user["role"] != 'ADMIN':
+            print('You do not have permission to update a teaching material')
+            return False
+    
         try:
             conn = self._bd_connect()
             cur = conn.cursor()
@@ -92,6 +116,17 @@ class TeachingMaterial:
             return False
 
     def delete_teaching_material(self):
+        with open('src/globals.py', 'r') as file:
+            exec(file.read())
+
+        if logged_user is None:
+            print('You must be logged in to delete a teaching material')
+            return False
+        
+        if logged_user["role"] != 'ADMIN':
+            print('You do not have permission to delete a teaching material')
+            return False
+    
         try:
             conn = self._bd_connect()
             cur = conn.cursor()
@@ -107,6 +142,13 @@ class TeachingMaterial:
             return False
 
     def get_teaching_materials(self):
+        with open('src/globals.py', 'r') as file:
+            exec(file.read())
+
+        if logged_user is None:
+            print('You must be logged in to get a teaching material')
+            return False
+    
         try:
             conn = self._bd_connect()
             cur = conn.cursor()
@@ -124,6 +166,13 @@ class TeachingMaterial:
             print(f'Error fetching teaching materials: {e}')
 
     def get_teaching_material_by_id(self):
+        with open('src/globals.py', 'r') as file:
+            exec(file.read())
+
+        if logged_user is None:
+            print('You must be logged in to get a teaching material')
+            return False
+
         try:
             conn = self._bd_connect()
             cur = conn.cursor()
@@ -140,6 +189,13 @@ class TeachingMaterial:
             print(f'Error fetching teaching material: {e}')
 
     def get_available_teaching_materials(self):
+        with open('src/globals.py', 'r') as file:
+            exec(file.read())
+            
+        if logged_user is None:
+            print('You must be logged in to get a teaching material')
+            return False
+
         try:
             conn = self._bd_connect()
             cur = conn.cursor()

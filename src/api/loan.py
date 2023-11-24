@@ -1,4 +1,5 @@
 from decouple import config
+from globals import logged_user
 from datetime import date
 
 import psycopg2
@@ -41,6 +42,13 @@ class Loan:
             print(f'Error connecting to the database: {e}')
 
     def create_loan(self):
+        with open('src/globals.py', 'r') as file:
+            exec(file.read())
+    
+        if logged_user is None:
+            print('You must be logged in to create a loan')
+            return False
+
         try:
             conn = self._bd_connect()
             cur = conn.cursor()
@@ -63,6 +71,13 @@ class Loan:
             return False
 
     def update_loan_status(self):
+        with open('src/globals.py', 'r') as file:
+            exec(file.read())
+
+        if logged_user is None:
+            print('You must be logged in to update a loan')
+            return False
+
         try:
             conn = self._bd_connect()
             cur = conn.cursor()
@@ -86,6 +101,13 @@ class Loan:
             return False
         
     def update_return_date(self):
+        with open('src/globals.py', 'r') as file:
+            exec(file.read())
+
+        if logged_user is None:
+            print('You must be logged in to update a loan')
+            return False
+
         try:
             conn = self._bd_connect()
             cur = conn.cursor()
@@ -101,6 +123,13 @@ class Loan:
             return False
 
     def delete_loan(self):
+        with open('src/globals.py', 'r') as file:
+            exec(file.read())
+
+        if logged_user is None:
+            print('You must be logged in to delete a loan')
+            return False
+
         try:
             conn = self._bd_connect()
             cur = conn.cursor()
@@ -116,6 +145,13 @@ class Loan:
             return False
 
     def get_all_loans(self):
+        with open('src/globals.py', 'r') as file:
+            exec(file.read())
+
+        if logged_user is None:
+            print('You must be logged in to get all loans')
+            return False
+
         try:
             conn = self._bd_connect()
             cur = conn.cursor()
@@ -134,6 +170,13 @@ class Loan:
             return None
         
     def get_loans_by_id(self):
+        with open('src/globals.py', 'r') as file:
+            exec(file.read())
+
+        if logged_user is None:
+            print('You must be logged in to get a loan')
+            return False
+
         try:
             conn = self._bd_connect()
             cur = conn.cursor()
@@ -149,6 +192,13 @@ class Loan:
             print(f'Error fetching loans: {e}')
         
     def get_in_progress_loans(self):
+        with open('src/globals.py', 'r') as file:
+            exec(file.read())
+            
+        if logged_user is None:
+            print('You must be logged in to get a loan')
+            return False
+
         try:
             conn = self._bd_connect()
             cur = conn.cursor()

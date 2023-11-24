@@ -1,6 +1,7 @@
 from decouple import config
 import psycopg2
-from passlib.hash import postgres_md5
+import hashlib
+from globals import logged_user
 
 POSTGRES_DB = config('POSTGRES_DB')
 POSTGRES_USER = config('POSTGRES_USER')
@@ -40,6 +41,9 @@ class User:
             print(f'Error connecting to the database: {e}')
 
     def authenticate_user(self):
+        with open('src/globals.py', 'r') as file:
+            exec(file.read())
+    
         try:
             conn = self._bd_connect()
             cur = conn.cursor()
@@ -48,14 +52,13 @@ class User:
             user = cur.fetchone()
 
             if user:
-                user_id, stored_username, hashed_password, first_name, last_name, user_photo_url, role = user
+                user_id, stored_username, first_name, last_name, hashed_password, user_photo_url, role = user
+                hashed_password_input = hashlib.md5(self.password.encode()).hexdigest()
 
-                hashed_input_password = postgres_md5.hash(self.password)
-
-                if postgres_md5.verify(self.password, hashed_password):
+                if hashed_password_input == hashed_password:
                     print(f'User with ID {user_id} authenticated successfully.')
                     conn.close()
-                    return User(
+                    user = User(
                         user_id,
                         stored_username,
                         first_name,
@@ -63,6 +66,11 @@ class User:
                         user_photo_url,
                         role
                     )
+
+                    with open('src/globals.py', 'w') as file:
+                        file.write(f"logged_user = {user.__dict__}")
+
+                    return user
                 else:
                     print('Invalid password.')
                     conn.close()
@@ -77,6 +85,17 @@ class User:
             return None
 
     def create_user(self):
+        with open('src/globals.py', 'r') as file:
+            exec(file.read())
+
+        if logged_user is None:
+            print('You must be logged in to create a user')
+            return False
+        
+        if logged_user["role"] != 'ADMIN':
+            print('You do not have permission to create a user')
+            return False
+    
         try:
             conn = self._bd_connect()
             cur = conn.cursor()
@@ -99,6 +118,17 @@ class User:
             return False
 
     def update_user(self):
+        with open('src/globals.py', 'r') as file:
+            exec(file.read())
+    
+        if logged_user is None:
+            print('You must be logged in to update a user')
+            return False
+        
+        if logged_user["role"] != 'ADMIN':
+            print('You do not have permission to update a user')
+            return False
+    
         try:
             conn = self._bd_connect()
             cur = conn.cursor()
@@ -122,6 +152,17 @@ class User:
             return False
 
     def delete_user(self):
+        with open('src/globals.py', 'r') as file:
+            exec(file.read())
+    
+        if logged_user is None:
+            print('You must be logged in to delete a user')
+            return False
+        
+        if logged_user["role"] != 'ADMIN':
+            print('You do not have permission to delete a user')
+            return False
+    
         try:
             conn = self._bd_connect()
             cur = conn.cursor()
@@ -137,6 +178,17 @@ class User:
             return False
 
     def get_users(self):
+        with open('src/globals.py', 'r') as file:
+            exec(file.read())
+    
+        if logged_user is None:
+            print('You must be logged in to get a user')
+            return False
+        
+        if logged_user["role"] != 'ADMIN':
+            print('You do not have permission to get all users')
+            return False
+    
         try:
             conn = self._bd_connect()
             cur = conn.cursor()
@@ -154,6 +206,17 @@ class User:
             print(f'Error fetching users: {e}')
 
     def get_user_by_id(self):
+        with open('src/globals.py', 'r') as file:
+            exec(file.read())
+    
+        if logged_user is None:
+            print('You must be logged in to get a user')
+            return False
+        
+        if logged_user.id != self.id:
+            print('You do not have permission another user')
+            return False
+    
         try:
             conn = self.bd_connect()
             cur = conn.cursor()
@@ -168,6 +231,17 @@ class User:
             print(f'Error fetching user: {e}')
 
     def get_all_members(self):
+        with open('src/globals.py', 'r') as file:
+            exec(file.read())
+
+        if logged_user is None:
+            print('You must be logged in to get a user')
+            return False
+        
+        if logged_user["role"] != 'ADMIN':
+            print('You do not have permission to get all users')
+            return False
+    
         try:
             conn = self.bd_connect()
             cur = conn.cursor()
