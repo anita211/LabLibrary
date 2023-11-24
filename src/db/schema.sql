@@ -88,7 +88,7 @@ $$ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION encrypt_password()
 RETURNS TRIGGER AS $$
 BEGIN
-    NEW.password := crypt(NEW.password, gen_salt('bf', 8));
+    NEW.password := md5(NEW.password);
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
@@ -110,11 +110,13 @@ BEGIN
         UPDATE Books
         SET status = 'BORROWED'
         WHERE isbn = NEW.id_book;
+    END IF;
     
     IF NEW.id_material IS NOT NULL THEN
         UPDATE Teaching_materials
         SET status = 'BORROWED'
         WHERE isbn = NEW.id_material;
+    END IF;
 
     RETURN NEW;
 END;
