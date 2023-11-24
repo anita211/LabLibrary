@@ -1,4 +1,6 @@
 from decouple import config
+from datetime import date
+
 import psycopg2
 
 POSTGRES_DB = config('POSTGRES_DB')
@@ -64,15 +66,38 @@ class Loan:
         try:
             conn = self._bd_connect()
             cur = conn.cursor()
+            
+            if self.status == 'COMPLETED':
+                self.expected_return_date = date.today()
+
             cur.execute(
-                "UPDATE Loan SET status = %s WHERE id = %s",
-                (self.status, self.id)
+                "UPDATE Loan SET status = %s, expected_return_date = %s WHERE id = %s",
+                (
+                    self.status, 
+                    self.expected_return_date, 
+                    self.id
+                )
             )
             conn.commit()
             conn.close()
             return True
         except Exception as e:
             print(f'Error updating loan status: {e}')
+            return False
+        
+    def update_return_date(self):
+        try:
+            conn = self._bd_connect()
+            cur = conn.cursor()
+            cur.execute(
+                "UPDATE Loan SET expected_return_date = %s WHERE id = %s",
+                (self.expected_return_date, self.id)
+            )
+            conn.commit()
+            conn.close()
+            return True
+        except Exception as e:
+            print(f'Error updating loan return_date: {e}')
             return False
 
     def delete_loan(self):
