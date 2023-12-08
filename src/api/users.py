@@ -55,6 +55,8 @@ class User:
                 user_id, stored_username, first_name, last_name, hashed_password, user_photo_url, role = user
                 hashed_password_input = hashlib.md5(self.password.encode()).hexdigest()
 
+                print(user)
+
                 if hashed_password_input == hashed_password:
                     print(f'User with ID {user_id} authenticated successfully.')
                     conn.close()
@@ -63,6 +65,7 @@ class User:
                         stored_username,
                         first_name,
                         last_name,
+                        hashed_password,
                         user_photo_url,
                         role
                     )
