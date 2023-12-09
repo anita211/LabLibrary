@@ -136,15 +136,15 @@ class User:
             conn = self._bd_connect()
             cur = conn.cursor()
             cur.execute(
-                "UPDATE Users SET username = %s, first_name = %s, last_name = %s, password = %s, user_photo_url = %s, role = %s WHERE id = %s",
+                "UPDATE Users SET username = %s, first_name = %s, last_name = %s, password = %s, user_photo_url = %s, role = %s WHERE username = %s",
                 (
-                    self.username,
-                    self.first_name,
-                    self.last_name,
-                    self.password,
-                    self.user_photo_url,
-                    self.role,
-                    self.id
+                    self.username, 
+                    self.first_name, 
+                    self.last_name, 
+                    self.password, 
+                    self.user_photo_url, 
+                    self.role, 
+                    self.username
                 )
             )
             conn.commit()
@@ -221,9 +221,23 @@ class User:
             return False
     
         try:
-            conn = self.bd_connect()
+            conn = self._bd_connect()
             cur = conn.cursor()
             cur.execute('SELECT * FROM Users WHERE id = %s', (self.id,))
+            user_data = cur.fetchone()
+            conn.close()
+
+            if user_data:
+                user = User(*user_data)
+                return user
+        except Exception as e:
+            print(f'Error fetching user: {e}')
+
+    def get_user_by_username(self):
+        try:
+            conn = self._bd_connect()
+            cur = conn.cursor()
+            cur.execute('SELECT * FROM Users WHERE username = %s', (self.username,))
             user_data = cur.fetchone()
             conn.close()
 
@@ -246,7 +260,7 @@ class User:
             return False
     
         try:
-            conn = self.bd_connect()
+            conn = self._bd_connect()
             cur = conn.cursor()
             cur.execute('SELECT * FROM Users WHERE role = MEMBER')
             user_data = cur.fetchone()
