@@ -216,9 +216,9 @@ class User:
             print('You must be logged in to get a user')
             return False
         
-        if logged_user.id != self.id:
-            print('You do not have permission another user')
-            return False
+        # if logged_user.id != self.id:
+        #     print('You do not have permission another user')
+        #     return False
     
         try:
             conn = self._bd_connect()
