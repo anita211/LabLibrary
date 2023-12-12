@@ -6,11 +6,6 @@ from api.teaching_materials import TeachingMaterial
 import datetime
 from globals import logged_user
 
-user = logged_user
-st.write(user)
-
-role_user = logged_user["role"]
-
 
 st.header('Add a New Loan')
 LoanTypes = ['BOOK', 'TEACHING_MATERIAL']
