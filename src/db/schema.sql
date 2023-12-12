@@ -115,7 +115,7 @@ BEGIN
     IF NEW.id_material IS NOT NULL THEN
         UPDATE Teaching_materials
         SET status = 'BORROWED'
-        WHERE isbn = NEW.id_material;
+        WHERE id = NEW.id_material;
     END IF;
 
     RETURN NEW;
@@ -138,7 +138,7 @@ BEGIN
     IF NEW.status = 'COMPLETED' and OLD.id_material IS NOT NULL THEN
         UPDATE Teaching_materials
         SET status = 'AVAILABLE'
-        WHERE isbn = OLD.id_material;
+        WHERE id = OLD.id_material;
     END IF;
 
     RETURN NEW;
