@@ -6,19 +6,22 @@ from api.teaching_materials import TeachingMaterial
 import datetime
 from globals import logged_user
 
-id_user = logged_user["id"]
-st.write(id_user)
+user = logged_user
+st.write(user)
+
+role_user = logged_user["role"]
+
 
 st.header('Add a New Loan')
-
 LoanTypes = ['BOOK', 'TEACHING_MATERIAL']
 BooksId = [book.isbn for book in Book().get_available_books()]
 Books = Book().get_available_books()
 TeachingMaterialsId = [tm.id for tm in TeachingMaterial().get_available_teaching_materials()]
 TeachingMaterials = TeachingMaterial().get_available_teaching_materials()
-role = st.selectbox('Object Type', LoanTypes)
+ObjectType = st.selectbox('Object Type', LoanTypes)
 
-if role == 'BOOK':
+# Diferencia os campos de Livro e Material Didático
+if ObjectType == 'BOOK':
     st.write('Book')
     book_id = st.selectbox('Book ISBN', BooksId)
     if BooksId != []:
@@ -29,28 +32,32 @@ else:
     if TeachingMaterialsId != []:
         st.write('Serial Number - ' + TeachingMaterial(teaching_material_id).get_teaching_material_by_id().serie_number)
 
+# Diferencia os campos dependedo do tipo de usuário
 loan_date = st.date_input('Loan Date')
-status = st.selectbox('Status', ['BORROWED', 'RETURNED'])
-
-if status == 'BORROWED':
-    default_date = datetime.date.today() + datetime.timedelta(days=7)
-    expected_return_date = st.date_input('Expected Return Date', default_date)
-else: 
-    expected_return_date = st.date_input('Return Date')
-
-if status == 'BORROWED':
+if logged_user["role"] == "MEMBER":
     loan_status='IN_PROGRESS'
-else:
-    loan_status='COMPLETED'
+    id_user = logged_user["id"]
+    expected_return_date = datetime.date.today() + datetime.timedelta(days=7) # default - 7 dias a partir da data atual
+elif logged_user["role"] == "ADMIN":
+    status = st.selectbox('Status', ['BORROWED', 'RETURNED'])
+    id_user = st.selectbox('User', [user.id for user in User().get_users()])
+    st.write('Name - ' + User(id_user).get_user_by_id().first_name)
+    if status == 'BORROWED':
+        default_date = datetime.date.today() + datetime.timedelta(days=7)
+        expected_return_date = st.date_input('Expected Return Date', default_date)
+        loan_status='IN_PROGRESS'
+    else: 
+        expected_return_date = st.date_input('Return Date')
+        loan_status='COMPLETED'
 
 
-if st.button('Save'):
+if st.button('Confirm'):
     new_loan = Loan(
         loan_date=loan_date,
         expected_return_date=expected_return_date,
         status=loan_status,
-        id_book=book_id if role == 'BOOK' else None,
-        id_material=teaching_material_id if role == 'TEACHING_MATERIAL' else None,
+        id_book=book_id if ObjectType == 'BOOK' else None,
+        id_material=teaching_material_id if ObjectType == 'TEACHING_MATERIAL' else None,
         id_user=id_user,
     )
     
