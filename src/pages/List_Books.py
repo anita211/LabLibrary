@@ -1,5 +1,9 @@
 import streamlit as st
 from api.books import Book
+from globals import logged_user
+
+with open('src/globals.py', 'r') as file:
+    exec(file.read())
 
 # Define a function to generate a unique color for each book
 def get_book_color(book_index):
@@ -39,7 +43,7 @@ if books:
                 display_title = f'{book.title[:23]}...'
             else:
                 display_title = book.title
-
+            
             st.markdown(
                 f'<div style="padding: 2rem; border-radius: 2rem; background-color: {background_color}; color: black; display: flex; flex-direction: row;">'
                     f'<div style="flex: 1">'
@@ -59,5 +63,10 @@ if books:
                 f'</div>',
                 unsafe_allow_html=True
             )
+            if logged_user["role"] == 'ADMIN' and book.status == 'AVAILABLE':
+                st.text('')
+                if st.button("Deletar", key=book.isbn, use_container_width=True):
+                    Book(isbn=book.isbn).delete_book()
+                    books = Book().get_books()
 
         st.text('')

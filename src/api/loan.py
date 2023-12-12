@@ -77,6 +77,10 @@ class Loan:
         if logged_user is None:
             print('You must be logged in to update a loan')
             return False
+        
+        if logged_user["role"] != 'ADMIN':
+            print('You do not have permission to update a teaching material')
+            return False
 
         try:
             conn = self._bd_connect()
@@ -107,7 +111,7 @@ class Loan:
         if logged_user is None:
             print('You must be logged in to update a loan')
             return False
-
+    
         try:
             conn = self._bd_connect()
             cur = conn.cursor()
@@ -120,28 +124,6 @@ class Loan:
             return True
         except Exception as e:
             print(f'Error updating loan return_date: {e}')
-            return False
-
-    def delete_loan(self):
-        with open('src/globals.py', 'r') as file:
-            exec(file.read())
-
-        if logged_user is None:
-            print('You must be logged in to delete a loan')
-            return False
-
-        try:
-            conn = self._bd_connect()
-            cur = conn.cursor()
-            cur.execute(
-                "DELETE FROM Loan WHERE id = %s",
-                (self.id,)
-            )
-            conn.commit()
-            conn.close()
-            return True
-        except Exception as e:
-            print(f'Error deleting loan: {e}')
             return False
 
     def get_all_loans(self):
@@ -164,7 +146,9 @@ class Loan:
                 loan = Loan(*loan_data)
                 loans.append(loan)
 
-            return loans
+            loans.sort(key=lambda x: x.id)
+
+            return loans 
         except Exception as e:
             print(f'Error fetching loans: {e}')
             return None

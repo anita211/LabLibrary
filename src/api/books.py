@@ -159,6 +159,7 @@ class Book:
                 book = Book(*book_data)
                 books.append(book)
 
+            books.sort(key=lambda x: x.title)
             return books
         except Exception as e:
             print(f'Error fetching books: {e}')

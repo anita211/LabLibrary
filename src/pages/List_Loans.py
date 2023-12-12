@@ -1,10 +1,13 @@
 import streamlit as st
+from datetime import datetime, timedelta
 from api.users import User
 from api.loan import Loan
 from api.books import Book
 from api.teaching_materials import TeachingMaterial
 from globals import logged_user
 
+with open('src/globals.py', 'r') as file:
+    exec(file.read())
 
 user_role = logged_user["role"]
 user_id = logged_user["id"]
@@ -72,6 +75,16 @@ if loans:
                         unsafe_allow_html=True
                     )
                     st.text('')
+                    if loan.status == "IN_PROGRESS":
+                        if st.button("Adiar 1 semana", key=loan.id, use_container_width=True):
+                            Loan(id=loan.id, status="IN_PROGRESS", expected_return_date=(datetime.strptime(f'{loan.expected_return_date}', '%Y-%m-%d') + timedelta(days=7))).update_loan_status()
+                            loans = Loan().get_all_loans()
+                        
+                        if st.button("Finalizar", key=loan.id*0.1, use_container_width=True):
+                            Loan(id=loan.id, status="COMPLETED").update_loan_status()
+                            loans = Loan().get_all_loans()
+
+                    st.text('')
             elif user_role == "MEMBER" and user_id == loan.id_user:
                 if loan.id_book is None: # Material Didático
                     st.markdown(
@@ -90,6 +103,12 @@ if loans:
                         f'</div>',
                         unsafe_allow_html=True
                     )
+                    st.text('')
+                    if loan.status == "IN_PROGRESS":
+                        if st.button("Adiar 1 semana", key=loan.id, use_container_width=True):
+                            Loan(id=loan.id, status="IN_PROGRESS", expected_return_date=(datetime.strptime(f'{loan.expected_return_date}', '%Y-%m-%d') + timedelta(days=7))).update_loan_status()
+                            loans = Loan().get_all_loans()
+
                     st.text('')
                 else: # Livro
                     book_name = Book(loan.id_book).get_book_by_isbn().title

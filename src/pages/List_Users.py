@@ -1,5 +1,9 @@
 import streamlit as st
 from api.users import User
+from globals import logged_user
+
+with open('src/globals.py', 'r') as file:
+    exec(file.read())
 
 # Styles
 BACKGROUND_COLOR = "#CCCCCC"
@@ -66,5 +70,10 @@ if users:
         f'</div>',
         unsafe_allow_html=True
       )
+      if logged_user["role"] == 'ADMIN' and user.id != logged_user['id']:
+          st.text('')
+          if st.button("Deletar", key=user.id, use_container_width=True):
+              User(id=user.id).delete_book()
+              users = User().get_users()
 
       st.text('')

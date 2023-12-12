@@ -204,6 +204,7 @@ class User:
                 user = User(*user_data)
                 users.append(user)
 
+            users.sort(key=lambda x: x.first_name)
             return users
         except Exception as e:
             print(f'Error fetching users: {e}')

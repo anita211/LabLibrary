@@ -1,5 +1,9 @@
 import streamlit as st
+from globals import logged_user
 from api.teaching_materials import TeachingMaterial
+
+with open('src/globals.py', 'r') as file:
+    exec(file.read())
 
 def get_teaching_material_color(teachingMaterial_index):
     colors = ["#FFDDC1", "#C2EABD", "#AED9E0", "#FFD3B5", "#D4A5A5"]
@@ -49,5 +53,10 @@ if teaching_materials:
                 f'</div>',
                 unsafe_allow_html=True
             )
+            if logged_user["role"] == 'ADMIN' and teaching_material.status == 'AVAILABLE':
+                st.text('')
+                if st.button("Deletar", key=teaching_material.id, use_container_width=True):
+                    TeachingMaterial(id=teaching_material.id).delete_book()
+                    teaching_materials = TeachingMaterial().get_teaching_materials()
             
             st.text('')
