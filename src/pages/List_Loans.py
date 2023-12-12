@@ -17,7 +17,6 @@ search_term = st.text_input("Search by id, description, category, date acquisiti
 if loans:
     for index, loan in enumerate(loans):
         loanee_first_name = User(loan.id_user).get_user_by_id().first_name
-        book_name = Book(loan.id_book).get_book_by_isbn().title
         if (
             not search_term
             or search_term.lower() in str(loan.id).lower()
@@ -31,7 +30,6 @@ if loans:
             or search_term.lower() in book_name.lower()
         ):
             background_color = get_loan_color(index)
-            
             if loan.id_book is None:
                 st.markdown(
                     f'<div style="display: flex; align-items: center; padding: 10px; border-radius: 5px; background-color: {background_color}; color: black">'
@@ -42,8 +40,8 @@ if loans:
                                 f'<p>Loan Date: {loan.loan_date}</p>'
                                 f'<p>Expected Return Date: {loan.expected_return_date}</p>'
                                 f'<p>Teaching Material ID: {loan.id_material}</p>'
-                                f'<p>User ID: {loan.id_user}</p>'
-                                f'<p>User Name: {User(id_user).id_user.get_user_by_id().first_name}</p>'
+                                f'<p>Library User ID: {loan.id_user}</p>'
+                                f'<p>Library User First Name: {loanee_first_name}</p>'
                             f'</div>'
                         f'</div>'
                     f'</div>',
@@ -51,6 +49,7 @@ if loans:
                 )
                 st.text('')
             else:
+                book_name = Book(loan.id_book).get_book_by_isbn().title
                 st.markdown(
                     f'<div style="display: flex; align-items: center; padding: 10px; border-radius: 5px; background-color: {background_color}; color: black">'
                         f'<div style="flex: 1; padding-right: 10px;">'
@@ -60,7 +59,7 @@ if loans:
                                 f'<p>Loan Date: {loan.loan_date}</p>'
                                 f'<p>Expected Return Date: {loan.expected_return_date}</p>'
                                 f'<p>Book ID: {loan.id_book}</p>'
-                                f'<p>Book Name: {book_name }</p>'
+                                f'<p>Book Name: {book_name}</p>'
                                 f'<p>Library User ID: {loan.id_user}</p>'
                                 f'<p>Library User First Name: {loanee_first_name}</p>'
                             f'</div>'
