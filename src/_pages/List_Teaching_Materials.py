@@ -2,6 +2,29 @@ import streamlit as st
 from globals import logged_user
 from api.teaching_materials import TeachingMaterial
 
+DIV_MAIN = f'''
+    display: flex; 
+    padding: 2rem; 
+    color: black; 
+    flex-direction: row;
+    border-radius: 2rem;
+'''
+
+TEXT = f'''
+    display: flex; 
+    flex-direction: column; 
+    flex-wrap: wrap; 
+    margin-left: 20px; 
+    word-wrap: break-word; 
+    max-width: 20rem;
+'''
+
+IMAGE_STYLE = f'''
+    height: 50%; 
+    width: 35%; 
+    align-self: center;
+'''
+
 def create_page():
 
     with open('src/globals.py', 'r') as file:
@@ -36,10 +59,10 @@ def create_page():
                 background_color = get_teaching_material_color(index)
 
                 st.markdown(
-                    f'<div style="display: flex; align-items: center; padding: 10px; border-radius: 5px; background-color: {background_color}; color: black">'
+                    f'<div style="{DIV_MAIN} background-color: {background_color};">'
                         f'<div style="flex: 1; padding-right: 10px;">'
                             f'<h2 style="color: black">ID: {teaching_material.id}</h2>'
-                            f'<div style="display: flex; flex-direction: column; flex-wrap: wrap; margin-left: 20px;">'
+                            f'<div style="{TEXT}">'
                                 f'<p>Description: {teaching_material.description}</p>'
                                 f'<p>Category: {teaching_material.category}</p>'
                                 f'<p>Date Acquisition: {teaching_material.date_acquisition}</p>'
@@ -49,13 +72,13 @@ def create_page():
                                 f'<p>Status: {teaching_material.status}</p>'
                             f'</div>'
                         f'</div>'
-                        f'<img src="{teaching_material.material_cover_url}" alt="Teaching Material Cover" style="height: 40%; max-width: 35%;">'
+                        f'<img src="{teaching_material.material_cover_url}" alt="Teaching Material Cover" style="{IMAGE_STYLE}">'
                     f'</div>',
                     unsafe_allow_html=True
                 )
                 if logged_user["role"] == 'ADMIN' and teaching_material.status == 'AVAILABLE':
                     st.text('')
-                    if st.button("Deletar", key=teaching_material.id, use_container_width=True):
+                    if st.button("Delete", key=teaching_material.id, use_container_width=True):
                         TeachingMaterial(id=teaching_material.id).delete_teaching_material()
                         st.experimental_rerun()
                 

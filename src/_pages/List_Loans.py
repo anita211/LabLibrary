@@ -5,6 +5,23 @@ from api.loan import Loan
 from api.books import Book
 from globals import logged_user
 
+DIV_MAIN = f'''
+    display: flex; 
+    padding: 2rem; 
+    color: black; 
+    flex-direction: row;
+    border-radius: 2rem;
+'''
+
+TEXT = f'''
+    display: flex; 
+    flex-direction: column; 
+    flex-wrap: wrap; 
+    margin-left: 20px; 
+    word-wrap: break-word; 
+    max-width: 20rem;
+'''
+
 def create_page():
     with open('src/globals.py', 'r') as file:
         exec(file.read())
@@ -25,7 +42,7 @@ def create_page():
 
     if loans:
         for index, loan in enumerate(loans):
-            loanee_first_name = User(loan.id_user).get_user_by_id().first_name
+            loan_first_name = User(loan.id_user).get_user_by_id().first_name
             if (
                 not search_term
                 or search_term.lower() in str(loan.id).lower()
@@ -35,23 +52,24 @@ def create_page():
                 or search_term.lower() in str(loan.loan_date).lower()
                 or search_term.lower() in str(loan.expected_return_date).lower()
                 or search_term.lower() in loan.status.lower()
-                or search_term.lower() in loanee_first_name.lower()
+                or search_term.lower() in loan_first_name.lower()
                 or search_term.lower() in book_name.lower()
             ):
                 background_color = get_loan_color(index)
+
                 if user_role == "ADMIN":
                     if loan.id_book is None: # Material Didático
                         st.markdown(
-                            f'<div style="display: flex; align-items: center; padding: 10px; border-radius: 5px; background-color: {background_color}; color: black">'
+                            f'<div style="{DIV_MAIN} background-color: {background_color};">'
                                 f'<div style="flex: 1; padding-right: 10px;">'
                                     f'<h2 style="color: black">ID: {loan.id}</h2>'
-                                    f'<div style="display: flex; flex-direction: column; flex-wrap: wrap; margin-left: 20px;">'
+                                    f'<div style="{TEXT}">'
                                         f'<p>Status: {loan.status}</p>'
                                         f'<p>Loan Date: {loan.loan_date}</p>'
                                         f'<p>Expected Return Date: {loan.expected_return_date}</p>'
                                         f'<p>Teaching Material ID: {loan.id_material}</p>'
-                                        f'<p>Library User ID: {loan.id_user}</p>'
-                                        f'<p>Library User First Name: {loanee_first_name}</p>'
+                                        f'<p>User ID: {loan.id_user}</p>'
+                                        f'<p>User First Name: {loan_first_name}</p>'
                                     f'</div>'
                                 f'</div>'
                             f'</div>',
@@ -61,17 +79,17 @@ def create_page():
                     else: # Livro
                         book_name = Book(loan.id_book).get_book_by_isbn().title
                         st.markdown(
-                            f'<div style="display: flex; align-items: center; padding: 10px; border-radius: 5px; background-color: {background_color}; color: black">'
+                            f'<div style="{DIV_MAIN} background-color: {background_color};">'
                                 f'<div style="flex: 1; padding-right: 10px;">'
                                     f'<h2 style="color: black">ID: {loan.id}</h2>'
-                                    f'<div style="display: flex; flex-direction: column; flex-wrap: wrap; margin-left: 20px;">'
+                                    f'<div style="{TEXT}">'
                                         f'<p>Status: {loan.status}</p>'
                                         f'<p>Loan Date: {loan.loan_date}</p>'
                                         f'<p>Expected Return Date: {loan.expected_return_date}</p>'
                                         f'<p>Book ID: {loan.id_book}</p>'
                                         f'<p>Book Name: {book_name}</p>'
-                                        f'<p>Library User ID: {loan.id_user}</p>'
-                                        f'<p>Library User First Name: {loanee_first_name}</p>'
+                                        f'<p>User ID: {loan.id_user}</p>'
+                                        f'<p>User First Name: {loan_first_name}</p>'
                                     f'</div>'
                                 f'</div>'
                             f'</div>',
@@ -94,16 +112,16 @@ def create_page():
                 elif user_role == "MEMBER" and user_id == loan.id_user:
                     if loan.id_book is None: # Material Didático
                         st.markdown(
-                            f'<div style="display: flex; align-items: center; padding: 10px; border-radius: 5px; background-color: {background_color}; color: black">'
+                            f'<div style="{DIV_MAIN} background-color: {background_color};">'
                                 f'<div style="flex: 1; padding-right: 10px;">'
                                     f'<h2 style="color: black">ID: {loan.id}</h2>'
-                                    f'<div style="display: flex; flex-direction: column; flex-wrap: wrap; margin-left: 20px;">'
+                                    f'<div style="{TEXT}">'
                                         f'<p>Status: {loan.status}</p>'
                                         f'<p>Loan Date: {loan.loan_date}</p>'
                                         f'<p>Expected Return Date: {loan.expected_return_date}</p>'
                                         f'<p>Teaching Material ID: {loan.id_material}</p>'
-                                        f'<p>Library User ID: {loan.id_user}</p>'
-                                        f'<p>Library User First Name: {loanee_first_name}</p>'
+                                        f'<p>User ID: {loan.id_user}</p>'
+                                        f'<p>User First Name: {loan_first_name}</p>'
                                     f'</div>'
                                 f'</div>'
                             f'</div>',
@@ -119,17 +137,17 @@ def create_page():
                     else: # Livro
                         book_name = Book(loan.id_book).get_book_by_isbn().title
                         st.markdown(
-                            f'<div style="display: flex; align-items: center; padding: 10px; border-radius: 5px; background-color: {background_color}; color: black">'
+                            f'<div style="{DIV_MAIN} background-color: {background_color};">'
                                 f'<div style="flex: 1; padding-right: 10px;">'
                                     f'<h2 style="color: black">ID: {loan.id}</h2>'
-                                    f'<div style="display: flex; flex-direction: column; flex-wrap: wrap; margin-left: 20px;">'
+                                    f'<div style="{TEXT}">'
                                         f'<p>Status: {loan.status}</p>'
                                         f'<p>Loan Date: {loan.loan_date}</p>'
                                         f'<p>Expected Return Date: {loan.expected_return_date}</p>'
                                         f'<p>Book ID: {loan.id_book}</p>'
                                         f'<p>Book Name: {book_name}</p>'
                                         f'<p>Library User ID: {loan.id_user}</p>'
-                                        f'<p>Library User First Name: {loanee_first_name}</p>'
+                                        f'<p>Library User First Name: {loan_first_name}</p>'
                                     f'</div>'
                                 f'</div>'
                             f'</div>',

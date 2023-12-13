@@ -2,6 +2,35 @@ import streamlit as st
 from api.books import Book
 from globals import logged_user
 
+DIV_MAIN = f'''
+    display: flex; 
+    padding: 2rem; 
+    color: black; 
+    flex-direction: row;
+    border-radius: 2rem;
+'''
+
+TITLE = f'''
+    color: black; 
+    word-wrap: normal; 
+    max-width: 10rem;
+'''
+
+TEXT = f'''
+    display: flex; 
+    flex-direction: column; 
+    flex-wrap: wrap; 
+    margin-left: 20px; 
+    word-wrap: break-word; 
+    max-width: 20rem;
+'''
+
+IMAGE_STYLE = f'''
+    height: 50%; 
+    width: 35%; 
+    align-self: center;
+'''
+
 def create_page():
     with open('src/globals.py', 'r') as file:
         exec(file.read())
@@ -44,10 +73,10 @@ def create_page():
                     display_title = book.title
                 
                 st.markdown(
-                    f'<div style="padding: 2rem; border-radius: 2rem; background-color: {background_color}; color: black; display: flex; flex-direction: row;">'
+                    f'<div style="{DIV_MAIN} background-color: {background_color};">'
                         f'<div style="flex: 1">'
-                            f'<h2 style="color: black; word-wrap: normal; max-width: 20%">{display_title}</h2>'
-                            f'<div style="display: flex; flex-direction: column; flex-wrap: wrap; margin-left: 20px; word-wrap: break-word; max-width: 20rem">'
+                            f'<h2 style="{TITLE}">{display_title}</h2>'
+                            f'<div style="{TEXT}">'
                                 f'<p>ISBN: {book.isbn}</p>'
                                 f'<p>Author: {book.author}</p>'
                                 f'<p>Description: {book.description}</p>'
@@ -58,14 +87,16 @@ def create_page():
                                 f'<p>Status: {book.status}</p>'
                             f'</div>'
                         f'</div>'
-                        f'<img src="{book.book_cover_url}" alt="Book Cover" style="height: 50%; width: 35%; align-self: center">'
+                        f'<img src="{book.book_cover_url}" alt="Book Cover" style="{IMAGE_STYLE}">'
                     f'</div>',
                     unsafe_allow_html=True
                 )
+                st.text('')
                 if logged_user["role"] == 'ADMIN' and book.status == 'AVAILABLE':
-                    st.text('')
-                    if st.button("Deletar", key=book.isbn, use_container_width=True):
+                    if st.button("Delete", key=book.isbn, use_container_width=True):
                         Book(isbn=book.isbn).delete_book()
                         st.experimental_rerun()
+                else:
+                    st.text('You cannot delete a book that is on loan')
 
             st.text('')
