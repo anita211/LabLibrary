@@ -67,6 +67,6 @@ if books:
                 st.text('')
                 if st.button("Deletar", key=book.isbn, use_container_width=True):
                     Book(isbn=book.isbn).delete_book()
-                    books = Book().get_books()
+                    st.experimental_rerun()
 
         st.text('')

@@ -56,7 +56,7 @@ if teaching_materials:
             if logged_user["role"] == 'ADMIN' and teaching_material.status == 'AVAILABLE':
                 st.text('')
                 if st.button("Deletar", key=teaching_material.id, use_container_width=True):
-                    TeachingMaterial(id=teaching_material.id).delete_book()
-                    teaching_materials = TeachingMaterial().get_teaching_materials()
+                    TeachingMaterial(id=teaching_material.id).delete_teaching_material()
+                    st.experimental_rerun()
             
             st.text('')

@@ -125,6 +125,28 @@ class Loan:
         except Exception as e:
             print(f'Error updating loan return_date: {e}')
             return False
+        
+    def delete_loans_by_user(self):
+        with open('src/globals.py', 'r') as file:
+            exec(file.read())
+
+        if logged_user is None:
+            print('You must be logged in to delete a loan')
+            return False
+
+        try:
+            conn = self._bd_connect()
+            cur = conn.cursor()
+            cur.execute(
+                "DELETE FROM Loan WHERE id_user = %s",
+                (self.id_user,)
+            )
+            conn.commit()
+            conn.close()
+            return True
+        except Exception as e:
+            print(f'Error deleting loan: {e}')
+            return False
 
     def get_all_loans(self):
         with open('src/globals.py', 'r') as file:

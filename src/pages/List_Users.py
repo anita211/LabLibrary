@@ -73,7 +73,7 @@ if users:
       if logged_user["role"] == 'ADMIN' and user.id != logged_user['id']:
           st.text('')
           if st.button("Deletar", key=user.id, use_container_width=True):
-              User(id=user.id).delete_book()
-              users = User().get_users()
+              User(id=user.id).delete_user()
+              st.experimental_rerun()
 
       st.text('')

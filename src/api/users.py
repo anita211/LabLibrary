@@ -2,6 +2,7 @@ from decouple import config
 import psycopg2
 import hashlib
 from globals import logged_user
+from .loan import Loan
 
 POSTGRES_DB = config('POSTGRES_DB')
 POSTGRES_USER = config('POSTGRES_USER')
@@ -165,7 +166,9 @@ class User:
         if logged_user["role"] != 'ADMIN':
             print('You do not have permission to delete a user')
             return False
-    
+
+        Loan(id_user=self.id).delete_loans_by_user()
+        
         try:
             conn = self._bd_connect()
             cur = conn.cursor()
