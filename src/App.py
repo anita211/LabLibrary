@@ -44,18 +44,18 @@ admin_icons=[
 
     "plus-circle",
     "pencil",
-    "list-nested",
+    "list-ul",
 
     "plus-circle",
     "pencil",
-    "list-nested",
+    "list-ul",
 
     "plus-circle",
-    "list-nested",
+    "list-ul",
 
     "plus-circle",
     "pencil",
-    "list-nested",
+    "list-ul",
 ]
 
 member_menu=[
@@ -69,9 +69,9 @@ member_menu=[
 member_icons=[
     "house",
     "plus-circle",
-    "list-nested",
-    "list-nested",
-    "list-nested",
+    "list-ul",
+    "list-ul",
+    "list-ul",
 ]
 
 no_logged_menu=[
@@ -83,9 +83,9 @@ no_logged_menu=[
 
 no_logged_icons=[
     "dor-open",
-    "list-nested",
-    "list-nested",
-    "list-nested",
+    "list-ul",
+    "list-ul",
+    "list-ul",
 ]
 
 def choose_menu():
@@ -119,7 +119,7 @@ with st.sidebar:
             "nav-link": {
                 "font-size": "1.25rem", 
                 "text-align": "left", 
-                "margin":"0.375rem", 
+                "margin":"0.375rem 0", 
             },
         }
     )
