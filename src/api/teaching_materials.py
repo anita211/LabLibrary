@@ -48,7 +48,7 @@ class TeachingMaterial:
         with open('src/globals.py', 'r') as file:
             exec(file.read())
     
-        if logged_user is None:
+        if logged_user['role'] is None:
             print('You must be logged in to create a teaching material')
             return False
         
@@ -83,7 +83,7 @@ class TeachingMaterial:
         with open('src/globals.py', 'r') as file:
             exec(file.read())
     
-        if logged_user is None:
+        if logged_user['role'] is None:
             print('You must be logged in to update a teaching material')
             return False
         
@@ -119,7 +119,7 @@ class TeachingMaterial:
         with open('src/globals.py', 'r') as file:
             exec(file.read())
 
-        if logged_user is None:
+        if logged_user['role'] is None:
             print('You must be logged in to delete a teaching material')
             return False
         

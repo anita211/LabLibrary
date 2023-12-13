@@ -49,7 +49,7 @@ class Book:
         with open('src/globals.py', 'r') as file:
             exec(file.read())
 
-        if logged_user is None:
+        if logged_user['role'] is None:
             print('You must be logged in to create a book')
             return False
         
@@ -87,7 +87,7 @@ class Book:
         with open('src/globals.py', 'r') as file:
             exec(file.read())
 
-        if logged_user is None:
+        if logged_user['role'] is None:
             print('You must be logged in to update a book')
             return False
         
@@ -124,7 +124,7 @@ class Book:
         with open('src/globals.py', 'r') as file:
             exec(file.read())
 
-        if logged_user is None:
+        if logged_user['role'] is None:
             print('You must be logged in to delete a book')
             return False
         

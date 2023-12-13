@@ -45,7 +45,7 @@ class Loan:
         with open('src/globals.py', 'r') as file:
             exec(file.read())
     
-        if logged_user is None:
+        if logged_user['role'] is None:
             print('You must be logged in to create a loan')
             return False
 
@@ -74,7 +74,7 @@ class Loan:
         with open('src/globals.py', 'r') as file:
             exec(file.read())
 
-        if logged_user is None:
+        if logged_user['role'] is None:
             print('You must be logged in to update a loan')
             return False
         
@@ -108,7 +108,7 @@ class Loan:
         with open('src/globals.py', 'r') as file:
             exec(file.read())
 
-        if logged_user is None:
+        if logged_user['role'] is None:
             print('You must be logged in to update a loan')
             return False
     
@@ -130,7 +130,7 @@ class Loan:
         with open('src/globals.py', 'r') as file:
             exec(file.read())
 
-        if logged_user is None:
+        if logged_user['role'] is None:
             print('You must be logged in to delete a loan')
             return False
 
@@ -152,7 +152,7 @@ class Loan:
         with open('src/globals.py', 'r') as file:
             exec(file.read())
 
-        if logged_user is None:
+        if logged_user['role'] is None:
             print('You must be logged in to get all loans')
             return False
 
@@ -179,7 +179,7 @@ class Loan:
         with open('src/globals.py', 'r') as file:
             exec(file.read())
 
-        if logged_user is None:
+        if logged_user['role'] is None:
             print('You must be logged in to get a loan')
             return False
 
@@ -201,7 +201,7 @@ class Loan:
         with open('src/globals.py', 'r') as file:
             exec(file.read())
             
-        if logged_user is None:
+        if logged_user['role'] is None:
             print('You must be logged in to get a loan')
             return False
 

@@ -14,9 +14,11 @@ Follow these steps to set up and run the project on a Linux system:
 
 ### How to run
 
-1. run `pip install -r requirements.txt`
-2. run `docker-compose up -d`
-3. run `streamlit run src/Home.py`
+1. run `python3 -m venv venv`
+2. run `source ./venv/bin/activate`
+3. run `pip install -r requirements.txt`
+4. run `docker-compose up -d`
+5. run `streamlit run src/App.py`
 
 ## Folder Structure
 

@@ -92,7 +92,7 @@ class User:
         with open('src/globals.py', 'r') as file:
             exec(file.read())
 
-        if logged_user is None:
+        if logged_user['role'] is None:
             print('You must be logged in to create a user')
             return False
         
@@ -125,7 +125,7 @@ class User:
         with open('src/globals.py', 'r') as file:
             exec(file.read())
     
-        if logged_user is None:
+        if logged_user['role'] is None:
             print('You must be logged in to update a user')
             return False
         
@@ -159,7 +159,7 @@ class User:
         with open('src/globals.py', 'r') as file:
             exec(file.read())
     
-        if logged_user is None:
+        if logged_user['role'] is None:
             print('You must be logged in to delete a user')
             return False
         
@@ -187,7 +187,7 @@ class User:
         with open('src/globals.py', 'r') as file:
             exec(file.read())
     
-        if logged_user is None:
+        if logged_user['role'] is None:
             print('You must be logged in to get a user')
             return False
         
@@ -216,7 +216,7 @@ class User:
         with open('src/globals.py', 'r') as file:
             exec(file.read())
     
-        if logged_user is None:
+        if logged_user['role'] is None:
             print('You must be logged in to get a user')
             return False
         
@@ -255,7 +255,7 @@ class User:
         with open('src/globals.py', 'r') as file:
             exec(file.read())
 
-        if logged_user is None:
+        if logged_user['role'] is None:
             print('You must be logged in to get a user')
             return False
         
