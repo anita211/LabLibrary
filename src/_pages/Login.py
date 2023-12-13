@@ -22,6 +22,7 @@ def create_page():
                 st.write(f'User ID: {user.id}')
                 st.write(f'Role: {user.role}')
                 st.write(f'User Photo URL: {user.user_photo_url}')
+                st.experimental_rerun()
             else:
                 st.error('Invalid username or password. Please try again.')
 
