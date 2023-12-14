@@ -81,5 +81,7 @@ def create_page():
                     if st.button("Delete", key=teaching_material.id, use_container_width=True):
                         TeachingMaterial(id=teaching_material.id).delete_teaching_material()
                         st.experimental_rerun()
+                elif logged_user["role"] == 'ADMIN' and teaching_material.status != 'AVAILABLE':
+                    st.text('You cannot delete a teaching_material that is on loan')
                 
                 st.text('')

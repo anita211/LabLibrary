@@ -96,7 +96,7 @@ def create_page():
                     if st.button("Delete", key=book.isbn, use_container_width=True):
                         Book(isbn=book.isbn).delete_book()
                         st.experimental_rerun()
-                else:
+                elif logged_user["role"] == 'ADMIN' and book.status != 'AVAILABLE':
                     st.text('You cannot delete a book that is on loan')
 
             st.text('')
