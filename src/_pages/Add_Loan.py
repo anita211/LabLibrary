@@ -36,16 +36,9 @@ def create_page():
 
     # Diferencia os campos de Livro e Material Didático
     if ObjectType == 'BOOK':
-
-        st.write('Book')
         book_id = st.selectbox('Book Title', BooksId, format_func=lambda x: find_item_by_isbn(x, Books).title)
-        if BooksId != []:
-            st.write("Book Name - " + Book(book_id).get_book_by_isbn().title)
     else:
-        st.write('Teaching Material')
         teaching_material_id = st.selectbox('Teaching Material Description', TeachingMaterialsId, format_func=lambda x: find_item_by_id(x, TeachingMaterials).description)
-        if TeachingMaterialsId != []:
-            st.write('Serial Number - ' + TeachingMaterial(teaching_material_id).get_teaching_material_by_id().serie_number)
 
     # Diferencia os campos dependedo do tipo de usuário
     loan_date = st.date_input('Loan Date')
@@ -58,7 +51,6 @@ def create_page():
     elif logged_user["role"] == "ADMIN":
 
         id_user = st.selectbox('User', [user.id for user in users_list], format_func=lambda x: get_name(find_item_by_id(x, users_list)))
-        st.write('Name - ' + User(id_user).get_user_by_id().first_name)
         default_date = datetime.date.today() + datetime.timedelta(days=7)
         expected_return_date = st.date_input('Expected Return Date', default_date)
         loan_status='IN_PROGRESS'
