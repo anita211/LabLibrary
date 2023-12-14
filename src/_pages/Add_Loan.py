@@ -19,8 +19,10 @@ def create_page():
     st.header('Add a New Loan')
     LoanTypes = ['BOOK', 'TEACHING_MATERIAL']
     Books = Book().get_available_books()
+    Books = [book for book in Books if book.status == 'AVAILABLE']
     BooksId = [book.isbn for book in Books]
     TeachingMaterials = TeachingMaterial().get_available_teaching_materials()
+    TeachingMaterials = [tm for tm in TeachingMaterials if tm.status == 'AVAILABLE']
     TeachingMaterialsId = [tm.id for tm in TeachingMaterials]
     ObjectType = st.selectbox('Object Type', LoanTypes)
 
