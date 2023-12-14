@@ -11,6 +11,11 @@ def find_item_by_id(id, list):
         if item.id == id:
             return item
         
+def find_item_by_isbn(isbn, list):
+    for item in list:
+        if item.isbn == isbn:
+            return item
+
 def get_name(user):
     return user.first_name + ' ' + user.last_name
 
@@ -33,7 +38,7 @@ def create_page():
     if ObjectType == 'BOOK':
 
         st.write('Book')
-        book_id = st.selectbox('Book ISBN', BooksId, format_func=lambda x: find_item_by_id(x, Books).title)
+        book_id = st.selectbox('Book ISBN', BooksId, format_func=lambda x: find_item_by_isbn(x, Books).title)
         if BooksId != []:
             st.write("Book Name - " + Book(book_id).get_book_by_isbn().title)
     else:
