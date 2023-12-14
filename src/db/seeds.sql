@@ -1,19 +1,19 @@
 -- Inserção de livros
 INSERT INTO Books (isbn, title, author, description, category, date_acquisition, conservation_status, physical_location, book_cover_url, status) VALUES
-  (1015, 'Departure', 'Alan Wake', 'Não é um lago, é um oceano', 'SCIFI', '2023-11-21', 'NEW', 'primeira fileira da direita', 'localhost:5000', 'AVAILABLE'),
+  (1015, 'Departure', 'Alan Wake', 'Não é um lago, é um oceano', 'SCIFI', '2023-11-21', 'NEW', 'primeira fileira da direita', 'https://thumbs.dreamstime.com/b/livro-gen%C3%A9rico-1325496.jpg', 'AVAILABLE'),
   (1016, 'Return', 'Alan Wake', 'Não é um lago, é um oceano', 'SCIFI', '2023-11-21', 'NEW', 'primeira fileira da esquerda', 'localhost:5001', 'AVAILABLE'),
   (1017, 'Alex casy', 'Alan Wake', 'Não é um lago, é um oceano', 'SCIFI', '2023-11-21', 'NEW', 'primeira fileira da frente', 'localhost:5002', 'AVAILABLE');
 
 -- Inserção de usuários
-INSERT INTO Users (username, first_name, last_name, password, role) VALUES
-  ('nome123', 'Pafuncio', 'Pinto', '123456', 'ADMIN'),
-  ('nome456', 'Nina', 'Oliveira', '654321', 'MEMBER'),
-  ('nome789', 'Tapioca', 'Silva', '13579', 'MEMBER'),
-  ('nome9', 'Tilti', 'Costa', '13579', 'MEMBER');
+INSERT INTO Users (username, first_name, last_name, password, role, user_photo_url) VALUES
+  ('nome123', 'Pafuncio', 'Pinto', '123456', 'ADMIN', 'https://box4pets.com.br/cdn/shop/products/Designsemnome_24_1024x.png?v=1636485929'),
+  ('nome456', 'Nina', 'Oliveira', '654321', 'MEMBER', ''),
+  ('nome789', 'Tapioca', 'Silva', '13579', 'MEMBER', ''),
+  ('nome9', 'Tilti', 'Costa', '13579', 'MEMBER', '');
 
 -- Inserção de materiais de ensino
 INSERT INTO Teaching_materials (description, category, date_acquisition, conservation_status, physical_location, material_cover_url, status, serie_number) VALUES
-  ('paquimetro', 'LAB_EQUIPMENT', '2023-11-19', 'NEW', 'primeira fileira da direita', 'localhost:5000', 'AVAILABLE', '123'),
+  ('paquimetro', 'LAB_EQUIPMENT', '2023-11-19', 'NEW', 'primeira fileira da direita', 'https://cdn.awsli.com.br/600x450/1995/1995567/produto/138383485/0e53b522b2.jpg', 'AVAILABLE', '123'),
   ('multimetro', 'LAB_EQUIPMENT', '2023-11-20', 'NEW', 'primeira fileira da esquerda', 'localhost:5001', 'AVAILABLE', '321'),
   ('amperimetro', 'LAB_EQUIPMENT', '2023-11-21', 'NEW', 'primeira fileira da frente', 'localhost:5002', 'AVAILABLE', '555');
 
