@@ -77,13 +77,11 @@ member_icons=[
 no_logged_menu=[
     "Login",
     "List Books",
-    "List Loans",
     "List Teaching Materials",
 ]
 
 no_logged_icons=[
     "dor-open",
-    "list-ul",
     "list-ul",
     "list-ul",
 ]
