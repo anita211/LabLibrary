@@ -20,7 +20,7 @@ def create_page():
     role = st.selectbox("Role", ROLES, index=ROLES.index(user.role))
     first_name = st.text_input('First name', user.first_name)
     last_name = st.text_input('Last name', user.last_name)
-    password = st.text_input('Password', user.password, type='password')
+    password = st.text_input('Password', type='password')
     user_photo_url = st.text_input('User photo url', user.user_photo_url)
     
     if st.button('Save Changes'):
