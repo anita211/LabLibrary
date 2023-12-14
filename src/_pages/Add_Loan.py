@@ -38,12 +38,12 @@ def create_page():
     if ObjectType == 'BOOK':
 
         st.write('Book')
-        book_id = st.selectbox('Book ISBN', BooksId, format_func=lambda x: find_item_by_isbn(x, Books).title)
+        book_id = st.selectbox('Book Title', BooksId, format_func=lambda x: find_item_by_isbn(x, Books).title)
         if BooksId != []:
             st.write("Book Name - " + Book(book_id).get_book_by_isbn().title)
     else:
         st.write('Teaching Material')
-        teaching_material_id = st.selectbox('Teaching Material ID', TeachingMaterialsId, format_func=lambda x: find_item_by_id(x, TeachingMaterials).description)
+        teaching_material_id = st.selectbox('Teaching Material Description', TeachingMaterialsId, format_func=lambda x: find_item_by_id(x, TeachingMaterials).description)
         if TeachingMaterialsId != []:
             st.write('Serial Number - ' + TeachingMaterial(teaching_material_id).get_teaching_material_by_id().serie_number)
 
