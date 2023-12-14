@@ -6,6 +6,14 @@ from api.teaching_materials import TeachingMaterial
 import datetime
 from globals import logged_user
 
+def find_item_by_id(id, list):
+    for item in list:
+        if item.id == id:
+            return item
+        
+def get_name(user):
+    return user.first_name + ' ' + user.last_name
+
 def create_page():
 
     st.header('Add a New Loan')
@@ -18,19 +26,17 @@ def create_page():
 
     if logged_user["role"] == "ADMIN":
         users_list = User().get_users()
-        users_names = [f"{user.first_name} {user.last_name}" for user in users_list]
-
 
     # Diferencia os campos de Livro e Material Didático
     if ObjectType == 'BOOK':
 
         st.write('Book')
-        book_id = st.selectbox('Book ISBN', BooksId, format_func=lambda x: Books[x - 1].title)
+        book_id = st.selectbox('Book ISBN', BooksId, format_func=lambda x: find_item_by_id(x, Books).title)
         if BooksId != []:
             st.write("Book Name - " + Book(book_id).get_book_by_isbn().title)
     else:
         st.write('Teaching Material')
-        teaching_material_id = st.selectbox('Teaching Material ID', TeachingMaterialsId, format_func=lambda x: TeachingMaterials[x - 1].description)
+        teaching_material_id = st.selectbox('Teaching Material ID', TeachingMaterialsId, format_func=lambda x: find_item_by_id(x, TeachingMaterials).description)
         if TeachingMaterialsId != []:
             st.write('Serial Number - ' + TeachingMaterial(teaching_material_id).get_teaching_material_by_id().serie_number)
 
@@ -44,7 +50,7 @@ def create_page():
 
     elif logged_user["role"] == "ADMIN":
 
-        id_user = st.selectbox('User', [user.id for user in users_list], format_func=lambda x: users_names[x - 1])
+        id_user = st.selectbox('User', [user.id for user in users_list], format_func=lambda x: get_name(find_item_by_id(x, users_list)))
         st.write('Name - ' + User(id_user).get_user_by_id().first_name)
         default_date = datetime.date.today() + datetime.timedelta(days=7)
         expected_return_date = st.date_input('Expected Return Date', default_date)
