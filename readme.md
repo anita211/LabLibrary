@@ -28,8 +28,8 @@ The project follows the following folder structure:
 - The `src/` directory contains the project's source code, including subdirectories for the database, API functions, and Streamlit screens.
 - The `db/` directory holds files related to the database, including the `schema.sql` file that defines the database structure.
 - The `api/` directory contains API functions, each file corresponding to interactions with a specific database table.
-- The `pages/` directory hosts Streamlit screens, with each file representing a separate screen of the application.
-- The `Home.py` file in the `src/` directory serves as the main entry point that calls the Streamlit screens.
+- The `_pages/` directory hosts Streamlit screens, with each file representing a separate screen of the application.
+- The `App.py` file in the `src/` directory serves as the main entry point that calls the Streamlit screens.
 - The `requirements.txt` file lists Python dependencies.
 - The `.env` file is used for configuring environment variables.
 - The `docker-compose.yml` file is the Docker Compose configuration for setting up the PostgreSQL database.
