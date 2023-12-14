@@ -33,6 +33,7 @@ def create_page():
 
     if logged_user["role"] == "ADMIN":
         users_list = User().get_users()
+        users_list = [user for user in users_list if user.role == 'MEMBER']
 
     # Diferencia os campos de Livro e Material Didático
     if ObjectType == 'BOOK':
