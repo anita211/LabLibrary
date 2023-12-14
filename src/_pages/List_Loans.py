@@ -47,6 +47,8 @@ def create_page():
     if loans:
         for index, loan in enumerate(loans):
             loan_first_name = User(loan.id_user).get_user_by_id().first_name
+            if loan.id_book is not None:
+                book_name = Book(loan.id_book).get_book_by_isbn().title
             if (
                 not search_term
                 or search_term.lower() in str(loan.id).lower()
@@ -81,7 +83,6 @@ def create_page():
                         )
                         st.text('')
                     else: # Livro
-                        book_name = Book(loan.id_book).get_book_by_isbn().title
                         st.markdown(
                             f'<div style="{DIV_MAIN} background-color: {background_color};">'
                                 f'<div style="flex: 1; padding-right: 10px;">'
