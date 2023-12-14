@@ -30,7 +30,11 @@ def create_page():
     user_id = 0
     if user_role is not None:
         user_id = logged_user["id"]
+
     loans = Loan().get_all_loans()
+
+    if user_role == "MEMBER":
+        loans = [loan for loan in loans if loan.id_user == logged_user["id"]]
 
     def get_loan_color(loan_index):
         colors = ["#FFDDC1", "#C2EABD", "#AED9E0", "#FFD3B5", "#D4A5A5"]
