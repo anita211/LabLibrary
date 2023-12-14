@@ -153,6 +153,8 @@ class TeachingMaterial:
             for material_data in materials_data:
                 material = TeachingMaterial(*material_data)
                 materials.append(material)
+
+            materials.sort(key=lambda x: x.id)
             
             return materials
         except Exception as e:
