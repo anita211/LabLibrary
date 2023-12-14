@@ -7,9 +7,9 @@ INSERT INTO Books (isbn, title, author, description, category, date_acquisition,
 -- Inserção de usuários
 INSERT INTO Users (username, first_name, last_name, password, role, user_photo_url) VALUES
   ('nome123', 'Pafuncio', 'Pinto', '123456', 'ADMIN', 'https://box4pets.com.br/cdn/shop/products/Designsemnome_24_1024x.png?v=1636485929'),
-  ('nome456', 'Nina', 'Oliveira', '654321', 'MEMBER', ''),
-  ('nome789', 'Tapioca', 'Silva', '13579', 'MEMBER', ''),
-  ('nome9', 'Tilti', 'Costa', '13579', 'MEMBER', '');
+  ('nome456', 'Nina', 'Oliveira', '654321', 'MEMBER', 'localhost:5001'),
+  ('nome789', 'Tapioca', 'Silva', '13579', 'MEMBER', 'localhost:5002'),
+  ('nome9', 'Tilti', 'Costa', '13579', 'MEMBER', 'localhost:5003');
 
 -- Inserção de materiais de ensino
 INSERT INTO Teaching_materials (description, category, date_acquisition, conservation_status, physical_location, material_cover_url, status, serie_number) VALUES

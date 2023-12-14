@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS Teaching_materials (
     status VARCHAR DEFAULT 'AVAILABLE' CHECK (status IN ('AVAILABLE', 'BORROWED'))
 );
 
- CREATE TABLE IF NOT EXISTS Loan (
+CREATE TABLE IF NOT EXISTS Loan (
     id SERIAL PRIMARY KEY,
     loan_date DATE NOT NULL,
     expected_return_date DATE NOT NULL,
@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS Teaching_materials (
             OR 
             (id_book IS NULL AND id_material IS NOT NULL)
         ) AND (
-            expected_return_date > loan_date
+            expected_return_date >= loan_date
         )
     )
 );
